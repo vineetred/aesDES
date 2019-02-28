@@ -51,9 +51,32 @@ def getKeySchedule(key):
     key_schedule = byte2array(key)
 
     # Code here
-
+    sss = "7750f228896eb4561b9cd67497aad0b1"
+    hello = sss[0:8]
+    w0 = sss[0:8]
+    w1 = sss[8:16]
+    w2 = sss[16:24]
+    w3 = sss[24:32]
+    xor_result = int(sss, 16) ^ int(sss, 16)
+    #FIRST ROUNDKEY
+    #DIVIDE KEY INTO SUBKEYS
+    #2.g(w3)
+    #3.w4,w5,w6 and w7...
+    #BEGIN g(W3)
+    w3 = w3[2::] + w3[:2:]
+    bin_w3 = str(bin(int(w3,16)))
+    # print(bin_w3[2:6])
+    arr_first_4 = int(bin_w3[2:6],2)
+    arr_last_4 = int(bin_w3[30:],2)
+    print(SBOX[0])
+    #SBOX SHIT NOW
+    # print(byte2array((array2hex(w3))))
+    # w1 = int(sss,16) ^ int(sss,16)
+    # sss = int(key,16)
+    # print ('%x' % xor_result)
+    # for key in key_schedule:
+    # print(w0)
     return key_schedule
-
 
 def encrypt(plaintext, key_schedule):
     """Encrypts plaintext using key schedule
@@ -64,6 +87,7 @@ def encrypt(plaintext, key_schedule):
     state_array = byte2array(plaintext)
 
     # Code here
+
 
     return array2hex(state_array)
 
@@ -108,4 +132,5 @@ ciphertext = []
 for msg in plaintext:
     ciphertext.append(encrypt(bytes.fromhex(msg), key_schedule))
 
-print(ciphertext)
+# print(ciphertext)
+print(key_schedule)
