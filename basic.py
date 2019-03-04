@@ -66,9 +66,12 @@ def getKeySchedule(key):
     w3 = w3[2::] + w3[:2:]
     bin_w3 = str(bin(int(w3,16)))
     # print(bin_w3[2:6])
+    print(w3)
+    SUBSTITUTE_BYTES(w3)
     arr_first_4 = int(bin_w3[2:6],2)
     arr_last_4 = int(bin_w3[30:],2)
-    print(SBOX[0])
+    # print(arr_first_4*arr_last_4)
+    # print(SBOX[0])
     #SBOX SHIT NOW
     # print(byte2array((array2hex(w3))))
     # w1 = int(sss,16) ^ int(sss,16)
@@ -108,6 +111,21 @@ def SUBSTITUTE_BYTES(state_array):
     :return: none
     """
     # Code here
+    # sss = "7750f228896eb4561b9cd67497aad0b1"
+    # hello = sss[2:4]
+    # print(bin(int(hello,16)))
+    # print(hex(SBOX[0x20]))
+    # intArr = int(state_array,16)
+
+    p0 = hex(SBOX[int(state_array[0:2],16)])
+    # print(hex(SBOX[int(state_array[0:2],16)]))
+    p1 = hex(SBOX[int(state_array[2:4],16)])
+    p2 = hex(SBOX[int(state_array[4:6],16)])
+    p3 = hex(SBOX[int(state_array[6:8],16)])
+    # state_array = p0 + p1 + p2 + p3
+    # print("This is the state array: ",state_array)
+    # print(type(state_array))
+    # return state_array
 
 
 def SHIFT_ROWS(state_array):
@@ -134,3 +152,4 @@ for msg in plaintext:
 
 # print(ciphertext)
 print(key_schedule)
+# SUBSTITUTE_BYTES(key_schedule)
