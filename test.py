@@ -27,19 +27,92 @@
 # print(len(p2))
 # p2 = p2[:2] + '0' + p2[2:]
 # print(p2)
-import binascii
-key = "5468617473206D79204B756E67204675"
-text = "54776F204F6E65204E696E652054776F"
-hello = str(int(text,16) ^ int(key,16))
+# import binascii
+# key = "5468617473206D79204B756E67204675"
+# text = "54776F204F6E65204E696E652054776F"
+# hello = str(int(text,16) ^ int(key,16))
 # hello = int("{:02x}".format(int(text,16)),16) ^ int("{:02x}".format(int(key,16)),16)
 # hello = '1' + str(int(bin(int(key,16)),2) ^ int(bin(int(text,16)),2))
 # print(hello)
 # print(hex(int('1'+hello, 16)))
 # print(hex(hello))
-hello = hex(int(hello))[2:]
-hello = hello.zfill(32)
-
-print(hello)
-print(len(key))
+# hello = hex(int(hello))[2:]
+# hello = hello.zfill(32)
+import numpy as np
+# print(hello)
+# print(len(key))
 # print(binascii.hexlify('hello\n'))
 # print("{:02x}".format(int('1'+hello)))
+test = "63c0ab20eb2f30cb9f93af2ba092c7a2"
+# test = np.fromstring(test,dtype=hex)
+# print(test.shape)
+# print(test)
+# for i in range(0,4):
+# c0 = test[0:2] + test[8:10] + test[16:18] + test[24:26]
+# c1 = test[2:4] + test[10:12] + test[18:20] + test[26:28]
+# c2 = test[4:6] + test[12:14] + test[20:22] + test[28:30]
+# c3 = test[6:8] + test[14:16] + test[22:24] + test[30:32]
+# print(c3)
+# def byte2array(bytes):
+#     """Converts bytes to 4 x 4 array
+#     :param bytes: bytes
+#     :return: 4 x 4 array
+#     """
+#     array = []
+#     for i, byte in enumerate(bytes):
+#         if i % 4 == 0:
+#             array.append([byte])
+#         else:
+#             array[i // 4].append(byte)
+#     return array
+
+# hell = bin(int(test,16))[2:]
+# # print(hell)
+# bbb = byte2array(hell)
+# print(bbb)
+# def array2hex(array):
+#     """Converts 4 x 4 array to hex string
+#     :param array: array
+#     :return: hex string
+#     """
+#     hexstr = ""
+#     for i in range(4):
+#         hexstr += ''.join('{:02x}'.format(x) for x in array[i])
+#     return hexstr
+
+# # hexxx = array2hex(bbb)
+fixed_Matrix = (
+    [0x02,0x03,0x01,0x01],[0x01,0x02,0x03,0x01],[0x01,0x01,0x02,0x03],[0x03,0x01,0x01,0x02]
+)
+# print(fixed_Matrix[0][1])
+def column(test):
+    c = []
+    letters = []
+    k =0
+    for j in range(0,4):
+        for i in range(0,4):
+            letters.append(test[(8*i)+k:(8*i)+2+k])
+        k+=2
+        c.append(letters)
+        letters = []
+    return c
+world = column(test)
+for i in range(0,4):
+    world[i] = world[i][i::] + world[i][:i:]
+print(world)
+
+from pyfinite import ffield
+F = ffield.FField(8)
+
+def mixColumns(array):
+    res = 0
+    newres = []
+    frik = []
+    for i in range(0,4):
+        for i in range(0,4):
+            res = F.Multiply(fixed_Matrix[i][j],array[j][i]) 
+
+mixColumns(world)
+
+# a = F.Multiply(0x03,0x10)
+print(a)

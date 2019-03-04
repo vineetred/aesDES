@@ -16,7 +16,11 @@ SBOX = (
     0xE1, 0xF8, 0x98, 0x11, 0x69, 0xD9, 0x8E, 0x94, 0x9B, 0x1E, 0x87, 0xE9, 0xCE, 0x55, 0x28, 0xDF,
     0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16,
 )
-
+from pyfinite import ffield
+F = ffield.FField(8)
+fixed_Matrix = (
+    [0x02,0x03,0x01,0x01],[0x01,0x02,0x03,0x01],[0x01,0x01,0x02,0x03],[0x03,0x01,0x01,0x02]
+)
 RC = [0x01000000, 0x02000000, 0x04000000,0x08000000,  #The round constants
 0x10000000,0x20000000,0x40000000,0x80000000,0x1B000000,
 0x36000000,0x6C000000,0xD8000000,0xAB000000,0x4D000000,0x9A000000]
@@ -129,6 +133,28 @@ def XOR(var1,var2):
     return result
     # print(result)
 
+def columnBreak(test):
+    c = []
+    letters = []
+    c.append(test[0:2] + test[8:10] + test[16:18] + test[24:26])
+    c.append(test[2:4] + test[10:12] + test[18:20] + test[26:28])
+    c.append(test[4:6] + test[12:14] + test[20:22] + test[28:30])
+    c.append(test[6:8] + test[14:16] + test[22:24] + test[30:32])
+    final = c[0]+c[1]+c[2]+c[3]
+    return c
+
+def columnHello(test):
+    c = []
+    letters = []
+    k =0
+    for j in range(0,4):
+        for i in range(0,4):
+            letters.append(test[(8*i)+k:(8*i)+2+k])
+        k+=2
+        c.append(letters)
+        letters = []
+    return c
+
 def ADD_ROUND_KEY(state_array, key_array):
     """Performs ADD ROUND KEY
     :param state_array: state array
@@ -162,13 +188,33 @@ def SHIFT_ROWS(state_array):
     :return: none
     """
     # Code here
-    words = wordBreak(state_array)
-    i = 0
-    for j in len(words):
-        word = 
-        word = word[i::] + word[:i:]
-        i+=2
-        print (word)
+    column = columnHello(state_array)
+    for i in range(0,4):
+        column[i] = column[i][i::] + column[i][:i:]
+    return column
+
+def mixColumns(array):
+    res = 0
+    newres = []
+    frik = []
+    for i in range(0,4):
+        for j in range(0,4):
+            for k in range(0,4):
+                res= res ^ F.Multiply(fixed_Matrix[i][k],int(array[k][j],16))
+                # print(hex(res))
+            newres.append(res)
+    print(len(newres))
+    for i in newres:
+        print(hex(i))
+        # newres.append
+    
+    # for i in range(0,4):
+    #     intermed = XOR(res[0+i],res[1+i])
+    #     intermed = XOR(intermed,res[2+i])
+    #     intermed = XOR(intermed,res[3+i])
+    #     frik.append(intermed)
+    # print(res)
+
 
 key = "5468617473206D79204B756E67204675"
 # key_schedule = getKeySchedule(bytes.fromhex(key))
@@ -212,4 +258,6 @@ text = "54776F204F6E65204E696E652054776F"
 # print(hell)
 
 encrypt(44,22)
-SHIFT_ROWS("63c0ab20eb2f30cb9f93af2ba092c7a2")
+world = SHIFT_ROWS("63c0ab20eb2f30cb9f93af2ba092c7a2")
+asus = mixColumns(world)
+print(asus)
