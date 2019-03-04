@@ -17,7 +17,9 @@ SBOX = (
     0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16,
 )
 
-
+RC = [0x01000000, 0x02000000, 0x04000000,0x08000000,0x10000000,0x20000000,0x40000000,0x80000000,0x1B000000,0x36000000,0x6C000000,0xD8000000,0xAB000000,0x4D000000,0x9A000000] #The round constants
+# RC.append(0x01000000)
+W = []
 def byte2array(bytes):
     """Converts bytes to 4 x 4 array
     :param bytes: bytes
@@ -51,34 +53,62 @@ def getKeySchedule(key):
     key_schedule = byte2array(key)
 
     # Code here
-    sss = "7750f228896eb4561b9cd67497aad0b1"
-    hello = sss[0:8]
-    w0 = sss[0:8]
-    w1 = sss[8:16]
-    w2 = sss[16:24]
-    w3 = sss[24:32]
-    xor_result = int(sss, 16) ^ int(sss, 16)
-    #FIRST ROUNDKEY
-    #DIVIDE KEY INTO SUBKEYS
-    #2.g(w3)
-    #3.w4,w5,w6 and w7...
-    #BEGIN g(W3)
-    w3 = w3[2::] + w3[:2:]
-    bin_w3 = str(bin(int(w3,16)))
-    # print(bin_w3[2:6])
-    print(w3)
-    SUBSTITUTE_BYTES(w3)
-    arr_first_4 = int(bin_w3[2:6],2)
-    arr_last_4 = int(bin_w3[30:],2)
-    # print(arr_first_4*arr_last_4)
-    # print(SBOX[0])
-    #SBOX SHIT NOW
-    # print(byte2array((array2hex(w3))))
-    # w1 = int(sss,16) ^ int(sss,16)
-    # sss = int(key,16)
-    # print ('%x' % xor_result)
-    # for key in key_schedule:
-    # print(w0)
+    sss = "5468617473206D79204B756E67204675"
+    for i in range(0,4):
+        W.append(sss[i*8:(i+1)*(8)])
+
+    # W[3] = W[3][2::] + W[3][:2:]
+    # W[3] = "0x" + W[3]
+    print("W3 = ",W[3])
+    # sub_W = SUBSTITUTE_BYTES(W[3][2:])
+    # print(sub_W)
+    # g_w = RC[0]^ int(sub_W,16)
+    # print
+    # print(hex(g_w))
+    #NEW KEYS
+    j = 0
+    k = 0
+    for i in range(4,44):
+        print("I = ",i)
+        if (j%4==0):
+            print("J = ",j)
+            print("W[i-1]= ",W[i-1])
+            intermed = W[i-1][2::] + W[i-1][:2:]
+            sub_W = SUBSTITUTE_BYTES(intermed)
+            print("Sub_W = ",sub_W)
+            g_w = RC[k]^ int(sub_W,16)
+            k+=1
+            hello = int(W[i-4],16) ^ g_w
+            hello = hex(hello)
+            hello = hello[2:]
+            print("HELLO: ",hello)
+            W.append(hello)
+            j+=1
+            continue
+
+        hello = int(W[i-1],16) ^ int(W[i-4],16)
+        hello = hex(hello)
+        hello = hello[2:]
+        # print("HELLO: ",hello)
+        W.append(hello)
+        j+=1
+        
+
+    # w4 = int(w0,16) ^ g_w3
+    # print("W4 = ",hex(w4))
+    # w5 = 
+    # hey = ""
+    # for i in range(0,44):
+    #     if(i%4==0):
+    #         print("Key",i,": ",hey)
+    #         hey=""
+    #         continue
+    #     hey+=W[i]
+        
+        
+    
+    
+    print("W11= ",W[11])
     return key_schedule
 
 def encrypt(plaintext, key_schedule):
@@ -111,32 +141,14 @@ def SUBSTITUTE_BYTES(state_array):
     :return: none
     """
     # Code here
-    # sss = "7750f228896eb4561b9cd67497aad0b1"
-    # hello = sss[2:4]
-    # print(bin(int(hello,16)))
-    # print(hex(SBOX[0x20]))
-    # intArr = int(state_array,16)
-    state_array = "72aad0b1"
     p0 = str(hex(SBOX[int(state_array[0:2],16)]))
-    # print("aaa: ", state_array[4:6])
-    w = 32
-    print("THIS IS OGING IN: ",state_array[0:2])
-    pw = SBOX[int(state_array[0:2],16)]
-    print(hex((pw)))
-    print("SBOX: ",hex(SBOX[w]))
-    # print(p0)
-    # print(hex(int(state_array[2:4],16)))
-    # p1 = str(SBOX[hex(int(state_array[2:4],16))])
-    # p1 = str(SBOX[hex()])
-    # print(hex(int(state_array[2:4],16)))
-    # print(p1)
+    print("p0: ",p0)
+    p1 = str(hex(SBOX[int(state_array[2:4],16)]))
     p2 = str(hex(SBOX[int(state_array[4:6],16)]))
     p3 = str(hex(SBOX[int(state_array[6:8],16)]))
-    # state_array = p0[2:] + p1[2:] + p2[2:] + p3[2:]
-    print(state_array)
-    # print("This is the state array: ",state_array)
-    # print(type(state_array))
-    # return state_array
+    state_array = p0[2:] + p1[2:] + p2[2:] + p3[2:]
+    print("Sub array ",state_array)
+    return state_array
 
 
 def SHIFT_ROWS(state_array):
@@ -148,7 +160,7 @@ def SHIFT_ROWS(state_array):
     # Code here
 
 
-key = "7750f228896eb4561b9cd67497aad0b1"
+key = "5468617473206D79204B756E67204675"
 key_schedule = getKeySchedule(bytes.fromhex(key))
 
 plaintext = ["27153a16906ef425d078796f71569cbe",
