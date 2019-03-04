@@ -113,23 +113,27 @@ def getKeySchedule(key):
     return keys
 
 key = "7750f228896eb4561b9cd67497aad0b1"
-text="27153a16906ef425d078796f71569cbe"
+text="4e90a7cd0d8bce7285161377f0fd6fca"
 
 getKeySchedule(key)
-
+interimAfterXor = []
+interimResult = []
 # round0
 #We XOR plaintext with key0
-inputTextBroken = columnBreak(text)
+input = columnBreak(text)
 #THIS IS WHAT GOES IN
-input = round0
-interim = columnBreak(input)
 for i in range(0,11):
+    RoundKey = columnBreak(keys[i])
     for i in range(0,4):
         for j in range(0,4):
-            
-    roundBeginAfterXor = (inputTextBroken)
-    interimAFTERSUB = SUBBING(interim)
+            interim = int(RoundKey[i][j],16) ^ int(input[i][j],16)
+            interimResult.append(hex(interim)[2:])
+        interimAfterXor.append(interimResult)
+        interimResult = []
+    interimAFTERSUB = SUBBING(interimAfterXor)
     interimAFTERROWSHIFT = SHIFT_ROWS(interimAFTERSUB)
     input = interimAFTERROWSHIFT
+    interimAfterXor = []
+print(input)
 
 
