@@ -28,30 +28,6 @@ RC = [0x01000000, 0x02000000, 0x04000000,0x08000000,  #The round constants
 
 W = []
 keys = []
-def byte2array(bytes):
-    """Converts bytes to 4 x 4 array
-    :param bytes: bytes
-    :return: 4 x 4 array
-    """
-    array = []
-    for i, byte in enumerate(bytes):
-        if i % 4 == 0:
-            array.append([byte])
-        else:
-            array[i // 4].append(byte)
-    return array
-
-
-def array2hex(array):
-    """Converts 4 x 4 array to hex string
-    :param array: array
-    :return: hex string
-    """
-    hexstr = ""
-    for i in range(4):
-        hexstr += ''.join('{:02x}'.format(x) for x in array[i])
-    return hexstr
-
 
 def wordBreak(word):
     words = []
@@ -60,14 +36,8 @@ def wordBreak(word):
     return words
 
 def getKeySchedule(key):
-    """Returns key schedule of 44 words
-    :param key: 128 bit master key
-    :return: key schedule
-    """
-    key_schedule = byte2array(key)
 
-    # Code here
-    sss = "5468617473206D79204B756E67204675"
+    sss = key
     for i in range(0,4):
         W.append(sss[i*8:(i+1)*(8)])
 
@@ -105,27 +75,27 @@ def getKeySchedule(key):
     return keys
 
 def encrypt(plaintext, key_schedule):
-    """Encrypts plaintext using key schedule
-    :param plaintext: plaintext in hex
-    :param key_schedule: key schedule
-    :return: ciphertext in hex
-    """
-    # state_array = byte2array(plaintext)
-
-    # Code here
     #FIRST WE XOR THE PLAINTEXT WITH ROUND KEY:
     arrXOR = XOR(text,keys[0])
-    #WE THEN BREAK IT INTO 4 WORDS of a BYTE each
-    words = wordBreak(arrXOR)
-    subWords = ""
-    for word in words:
-        subWords = subWords + SUBSTITUTE_BYTES(word)
-    #WE do SHIFT ROWS NOW
-    
-
-
-    # return array2hex(state_array)
-
+    finale = arrXOR
+    for i in range(1,11):
+        
+        
+        #WE THEN BREAK IT INTO 4 WORDS of a BYTE each
+        # words = wordBreak(finale)
+        #Subsituite step SBOX
+        # subWords = ""
+        # for word in words:
+        #     subWords = subWords + SUBSTITUTE_BYTES(word)
+        finale = columnHello(finale)
+        subWords = SUBBING(finale)
+        print("THIS IS SUBWORD: ",len(subWords))
+        #WE do SHIFT ROWS NOW
+        shifted_Rows = SHIFT_ROWS(subWords)
+        #We add the round key now!
+        finale = ADD_ROUND_KEY(shifted_Rows, keys[i])
+        print("I= ",i)
+        print("FINALE ",finale)
 def XOR(var1,var2):
     result = str(int(var1,16) ^ int(var2,16))
     result = hex(int(result))[2:].zfill(32)
@@ -133,15 +103,15 @@ def XOR(var1,var2):
     return result
     # print(result)
 
-def columnBreak(test):
-    c = []
-    letters = []
-    c.append(test[0:2] + test[8:10] + test[16:18] + test[24:26])
-    c.append(test[2:4] + test[10:12] + test[18:20] + test[26:28])
-    c.append(test[4:6] + test[12:14] + test[20:22] + test[28:30])
-    c.append(test[6:8] + test[14:16] + test[22:24] + test[30:32])
-    final = c[0]+c[1]+c[2]+c[3]
-    return c
+# def columnBreak(test):
+#     c = []
+#     letters = []
+#     c.append(test[0:2] + test[8:10] + test[16:18] + test[24:26])
+#     c.append(test[2:4] + test[10:12] + test[18:20] + test[26:28])
+#     c.append(test[4:6] + test[12:14] + test[20:22] + test[28:30])
+#     c.append(test[6:8] + test[14:16] + test[22:24] + test[30:32])
+#     final = c[0]+c[1]+c[2]+c[3]
+#     return c
 
 def columnHello(test):
     c = []
@@ -155,109 +125,61 @@ def columnHello(test):
         letters = []
     return c
 
-def ADD_ROUND_KEY(state_array, key_array):
-    """Performs ADD ROUND KEY
-    :param state_array: state array
-    :param key_array: key array
-    :return: none
-    """
-    # Code here
+def ADD_ROUND_KEY(state_array, key):
+    res = []
+    output = []
+    key = columnHello(key)
+    print(key)
+    for i in range(0,4):
+        for j in range(0,4):
+            res.append(hex(int(state_array[i][j],16)^int(key[i][j],16))[2:].zfill(2))
+    output.append(res)
+    print("ARK")
+    print(output)
+    return output
 
+            # print("hey")
+
+def SUBBING(array):
+    c = []
+    letters = []
+    for i in range(0,4):
+        for j in range(0,4):
+            p0 = hex(SBOX[int(array[i][j],16)])
+            letters.append(p0)
+            print(p0)
+        c.append(p0)
+    return c
 
 def SUBSTITUTE_BYTES(state_array):
-    """Performs SUBSTITUTE_BYTES
-    :param state_array: state array
-    :param key_array: key array
-    :return: none
-    """
-    # Code here
     p0 = str(hex(SBOX[int(state_array[0:2],16)]))
+    if(len(p0)<4):
+        p0 = p0[:2] + '0' + p0[2:]
     p1 = str(hex(SBOX[int(state_array[2:4],16)]))
+    if(len(p1)<4):
+        p1 = p1[:2] + '0' + p1[2:]
     p2 = str(hex(SBOX[int(state_array[4:6],16)]))
     if(len(p2)<4):
         p2 = p2[:2] + '0' + p2[2:]
     p3 = str(hex(SBOX[int(state_array[6:8],16)]))
+    if(len(p3)<4):
+        p3 = p3[:2] + '0' + p3[2:]
     state_array = p0[2:] + p1[2:] + p2[2:] + p3[2:]
     return state_array
 
 
 def SHIFT_ROWS(state_array):
-    """Performs SHIFT_ROWS
-    :param state_array: state array
-    :param key_array: key array
-    :return: none
-    """
-    # Code here
+
     column = columnHello(state_array)
     for i in range(0,4):
         column[i] = column[i][i::] + column[i][:i:]
     return column
 
-def mixColumns(array):
-    res = 0
-    newres = []
-    frik = []
-    for i in range(0,4):
-        for j in range(0,4):
-            for k in range(0,4):
-                res= res ^ F.Multiply(fixed_Matrix[i][k],int(array[k][j],16))
-                # print(hex(res))
-            newres.append(res)
-    print(len(newres))
-    for i in newres:
-        print(hex(i))
-        # newres.append
-    
-    # for i in range(0,4):
-    #     intermed = XOR(res[0+i],res[1+i])
-    #     intermed = XOR(intermed,res[2+i])
-    #     intermed = XOR(intermed,res[3+i])
-    #     frik.append(intermed)
-    # print(res)
-
-
 key = "5468617473206D79204B756E67204675"
-# key_schedule = getKeySchedule(bytes.fromhex(key))
 
-plaintext = ["27153a16906ef425d078796f71569cbe",
-             "b6f2d9b55d607b9a3e23cb4b9e133a18",
-             "1a9d31f65a985ae9dfb6344cc90ec75b",
-             "4e90a7cd0d8bce7285161377f0fd6fca"]
-
-ciphertext = []
-
-# for msg in plaintext:
-#     ciphertext.append(encrypt(bytes.fromhex(msg), key_schedule))
-
-# print(ciphertext)
-# print(key_schedule)
 getKeySchedule(key)
-# SUBSTITUTE_BYTES(key_schedule)
 
-text = "54776F204F6E65204E696E652054776F"
-# for i in range(len(text)):
-#     ans = ""
-#     inter = text[i-1] + text[i]
-#     keyinter = keys[0][i-1] + keys[0][i]
-#     ans = int(inter,16) ^ int(keyinter[0],16)
-#     ans = hex(ans)
-#     if(len(ans)==0):
-#         ans = "00"
-#     elif(len(ans)==1):
-#         ans = ans[:2] + '0' + ans[2:]
-#     print(ans)
-
-# hello = str(int(text,16) ^ int(key,16))
-# hello = hex(int(hello))[2:].zfill(32)
-# print("This is the XOR")
-# print(hello)
-
-# hell = SUBSTITUTE_BYTES(hello)
-
-
-# print(hell)
+text = "27153a16906ef425d078796f71569cbe"
 
 encrypt(44,22)
-world = SHIFT_ROWS("63c0ab20eb2f30cb9f93af2ba092c7a2")
-asus = mixColumns(world)
-print(asus)
+# ADD_ROUND_KEY(world)
