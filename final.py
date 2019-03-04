@@ -1,3 +1,9 @@
+from collections import deque
+matrix = [[0,0,0,0],
+         [0,0,0,0],
+         [0,0,0,0],
+         [0,0,0,0]]
+
 SBOX = (
     0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,
     0xCA, 0x82, 0xC9, 0x7D, 0xFA, 0x59, 0x47, 0xF0, 0xAD, 0xD4, 0xA2, 0xAF, 0x9C, 0xA4, 0x72, 0xC0,
@@ -21,6 +27,21 @@ RC = [0x01000000, 0x02000000, 0x04000000,0x08000000,  #The round constants
 0x10000000,0x20000000,0x40000000,0x80000000,0x1B000000,
 0x36000000,0x6C000000,0xD8000000,0xAB000000,0x4D000000,0x9A000000]
 
+
+def byte2array(bytes):
+    """Converts bytes to 4 x 4 array
+    :param bytes: bytes
+    :return: 4 x 4 array
+    """
+    array = []
+    for i, byte in enumerate(bytes):
+        if i % 4 == 0:
+            array.append([byte])
+        else:
+            array[i // 4].append(byte)
+    return array
+
+
 def SUBSTITUTE_BYTES(state_array):
     p0 = str(hex(SBOX[int(state_array[0:2],16)]))
     if(len(p0)<4):
@@ -42,7 +63,7 @@ def SUBBING(array):
     letters = []
     for i in range(0,4):
         for j in range(0,4):
-            p0 = hex(SBOX[int(array[i][j],16)])
+            p0 = hex(SBOX[int(array[i][j],16)])[2:].zfill(2)
             letters.append(p0)
             # print(p0)
         # print(letters)
@@ -67,73 +88,128 @@ def SHIFT_ROWS(state_array):
     # column = (state_array)
     column = state_array
     for i in range(0,4):
-        column[i] = column[i][i::] + column[i][:i:]
+        middleMan = deque(column[i])
+        middleMan.rotate(-i)
+        column[i] = list(middleMan)
     return column
 
+def transpose(array):
+    for i in range(0,4):
+        for j in range(0,4):
+            matrix[j][i] = array[i][j]
+    return matrix
 
 W = []
 keys = []
-def getKeySchedule(key):
+# def getKeySchedule(key):
 
-    sss = key
-    for i in range(0,4):
-        W.append(sss[i*8:(i+1)*(8)])
+#     sss = key
+#     for i in range(0,4):
+#         W.append(sss[i*8:(i+1)*(8)])
 
-    j = 0
-    k = 0
-    for i in range(4,45):
-        if (j%4==0):
-            intermed = W[i-1][2::] + W[i-1][:2:]
-            sub_W = SUBSTITUTE_BYTES(intermed)
-            g_w = RC[k]^ int(sub_W,16)
-            k+=1
-            hello = int(W[i-4],16) ^ g_w
-            hello = hex(hello)
-            hello = hello[2:]
-            W.append(hello)
-            j+=1
-            continue
+#     j = 0
+#     k = 0
+#     for i in range(4,45):
+#         if (j%4==0):
+#             intermed = W[i-1][2::] + W[i-1][:2:]
+#             sub_W = SUBSTITUTE_BYTES(intermed)
+#             g_w = RC[k]^ int(sub_W,16)
+#             k+=1
+#             hello = int(W[i-4],16) ^ g_w
+#             hello = hex(hello)
+#             hello = hello[2:]
+#             W.append(hello)
+#             j+=1
+#             continue
 
-        hello = int(W[i-1],16) ^ int(W[i-4],16)
-        hello = hex(hello)
-        hello = hello[2:]
-        W.append(hello)
-        j+=1
+#         hello = int(W[i-1],16) ^ int(W[i-4],16)
+#         hello = hex(hello)
+#         hello = hello[2:]
+#         W.append(hello)
+#         j+=1
 
     
-    key = ""
-    for i in range(0,45):
-        if(i%4==0 and i!=0):
-            keys.append(key)
-            key = ""
-        key +=W[i]
-    # for key in keys:
-    #     print(key)
+#     key = ""
+#     for i in range(0,45):
+#         if(i%4==0 and i!=0):
+#             keys.append(key)
+#             key = ""
+#         key +=W[i]
+#     # for key in keys:
+#     #     print(key)
 
+#     return keys
+
+def getKeySchedule(key):
+    W = []
+    # key = "7750f228896eb4561b9cd67497aad0b1"
+    # key = columnBreak(key)
+    keys = byte2array(bytes.fromhex(key))
+    
+    for j in range(4,44):
+        x0 = keys[j-4][0]
+        x1 = keys[j-4][1]
+        x2 = keys[j-4][2]
+        x3 = keys[j-4][3]
+        fren = [x3,x0,x1,x2]
+        keys.append(fren)     
     return keys
+
+    
+
+def XOR(var1,var2):
+    result = str(int(var1,16) ^ int(var2,16))
+    result = hex(int(result))[2:].zfill(32)
+    return result
 
 key = "7750f228896eb4561b9cd67497aad0b1"
 text="4e90a7cd0d8bce7285161377f0fd6fca"
 
-getKeySchedule(key)
+finalKeys = getKeySchedule(key)
 interimAfterXor = []
 interimResult = []
 # round0
 #We XOR plaintext with key0
-input = columnBreak(text)
+print(text)
+input = XOR(key,text)
+
+
+print("THIS IS WHAT FGOES IN ",input)
+# print(input)
+
 #THIS IS WHAT GOES IN
-for i in range(0,11):
-    RoundKey = columnBreak(keys[i])
+for z in range(1,10):
+    # print("I = ",i)
+    # 
+    input = columnBreak(input)
+    print("AFTER CB ",input)
+    interimAFTERSUB = SUBBING(input)
+    # print("AFTER SUBBING: ",interimAFTERSUB)
+    interimAFTERROWSHIFT = SHIFT_ROWS(interimAFTERSUB)
+    # print("AFTER SHIFT ROWS, ",interimAFTERROWSHIFT)
+    # interimAFTERROWSHIFT = transpose(interimAFTERROWSHIFT)
+    # RoundKey = columnBreak(keys[i])
+    # interimAfterXor = XOR(RoundKey,interimAFTERROWSHIFT)
+    # interimAfterXor = RoundKey ^ interimAFTERROWSHIFT
+    input = ""
+    frick = []
+    frick2 = []
     for i in range(0,4):
         for j in range(0,4):
-            interim = int(RoundKey[i][j],16) ^ int(input[i][j],16)
-            interimResult.append(hex(interim)[2:])
-        interimAfterXor.append(interimResult)
-        interimResult = []
-    interimAFTERSUB = SUBBING(interimAfterXor)
-    interimAFTERROWSHIFT = SHIFT_ROWS(interimAFTERSUB)
-    input = interimAFTERROWSHIFT
-    interimAfterXor = []
-print(input)
+            # p = hex(int(RoundKey[i][j],16) ^ int(interimAFTERROWSHIFT[i][j],16))[2:]
+            # input+=str(p)
+            med = hex(finalKeys[i][j] ^ int(interimAFTERROWSHIFT[j][i],16))[2:]
+        frick.append(med)
+    frick2.append(frick)
 
+    input = frick2
+    
+    # print("INPUT AT THE END: ",input)
+    # input = XOR(finalKeys[z],input)
+    # print("INPUT AFTER XOR: ",input)
+    print(z)
+    # print(columnBreak(input))
+    # input = interimAfterXor
+print(input)
+# print(finalKeys[1])
 

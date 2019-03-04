@@ -43,7 +43,7 @@ def getKeySchedule(key):
 
     j = 0
     k = 0
-    for i in range(4,45):
+    for i in range(4,44):
         if (j%4==0):
             intermed = W[i-1][2::] + W[i-1][:2:]
             sub_W = SUBSTITUTE_BYTES(intermed)
