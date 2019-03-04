@@ -133,40 +133,44 @@ def AddRoundKey(inp,index):
         ark.append(franco)
     return ark
 
+
+def encrypt(text,key):
+
+    global finalKeys
+    finalKeys = getKeySchedule(key)
+    
+    #Conversion to bytes
+    text = byte2array(bytes.fromhex(text))
+    #ROUND0 ARK
+    input = []
+    for i in range(0,4):
+        input.append(XOR(text[i],finalKeys[i]))
+
+    #BEGIN 9 more ROUNDS
+    count = 4
+    for z in range(0,10):
+        #FIRST TRANSPOSE
+        input = transpose(input)
+        # print(input)
+        #THEN WE SUBSIT
+        input = SUBSTITUTE_BYTES(input)
+        # print(input)
+
+        #SHIFT ROWS!
+        input = SHIFT_ROWS(input)
+        # print(input)
+
+        #WE TRANPOSE AGAIN!
+        input = transpose(input)
+
+        #Adding the round Key
+        input = AddRoundKey(input,count)
+        count+=4
+    print(array2hex(input))
 key = "7750f228896eb4561b9cd67497aad0b1"
-text="4e90a7cd0d8bce7285161377f0fd6fca"
-
-finalKeys = getKeySchedule(key)
-
-
-print("Text = ",text)
-text = byte2array(bytes.fromhex(text))
-
-
-#ROUND0 ARK
-input = []
-for i in range(0,4):
-    input.append(XOR(text[i],finalKeys[i]))
-# print(input)
-
-#BEGIN 9 more ROUNDS
-count = 4
-for z in range(0,10):
-    #FIRST TRANSPOSE
-    input = transpose(input)
-    # print(input)
-    #THEN WE SUBSIT
-    input = SUBSTITUTE_BYTES(input)
-    # print(input)
-
-    #SHIFT ROWS!
-    input = SHIFT_ROWS(input)
-    # print(input)
-
-    #WE TRANPOSE AGAIN!
-    input = transpose(input)
-
-    #Adding the round Key
-    input = AddRoundKey(input,count)
-    count+=4
-print(array2hex(input))
+plaintext = ["27153a16906ef425d078796f71569cbe",
+             "b6f2d9b55d607b9a3e23cb4b9e133a18",
+             "1a9d31f65a985ae9dfb6344cc90ec75b",
+             "4e90a7cd0d8bce7285161377f0fd6fca"]
+for text in plaintext:
+    encrypt(text,key)
