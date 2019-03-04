@@ -116,13 +116,24 @@ def SUBSTITUTE_BYTES(state_array):
     # print(bin(int(hello,16)))
     # print(hex(SBOX[0x20]))
     # intArr = int(state_array,16)
-
-    p0 = hex(SBOX[int(state_array[0:2],16)])
-    # print(hex(SBOX[int(state_array[0:2],16)]))
-    p1 = hex(SBOX[int(state_array[2:4],16)])
-    p2 = hex(SBOX[int(state_array[4:6],16)])
-    p3 = hex(SBOX[int(state_array[6:8],16)])
-    # state_array = p0 + p1 + p2 + p3
+    state_array = "72aad0b1"
+    p0 = str(hex(SBOX[int(state_array[0:2],16)]))
+    # print("aaa: ", state_array[4:6])
+    w = 32
+    print("THIS IS OGING IN: ",state_array[0:2])
+    pw = SBOX[int(state_array[0:2],16)]
+    print(hex((pw)))
+    print("SBOX: ",hex(SBOX[w]))
+    # print(p0)
+    # print(hex(int(state_array[2:4],16)))
+    # p1 = str(SBOX[hex(int(state_array[2:4],16))])
+    # p1 = str(SBOX[hex()])
+    # print(hex(int(state_array[2:4],16)))
+    # print(p1)
+    p2 = str(hex(SBOX[int(state_array[4:6],16)]))
+    p3 = str(hex(SBOX[int(state_array[6:8],16)]))
+    # state_array = p0[2:] + p1[2:] + p2[2:] + p3[2:]
+    print(state_array)
     # print("This is the state array: ",state_array)
     # print(type(state_array))
     # return state_array
