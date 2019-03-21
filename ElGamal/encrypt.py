@@ -4,7 +4,8 @@ import binascii
 
 file = open("public_key.txt", 'r')
 
-message = "helloworld"
+#Change message here
+message = "teddybears"
 print("Message:")
 
 message_Encrypted = int(binascii.hexlify(message.encode('utf-8')),16)
