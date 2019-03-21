@@ -1,4 +1,7 @@
 from random import randrange, getrandbits, random
+import sys
+sys.setrecursionlimit(6000)
+
 
 def possible_Prime(length):
     i = False
@@ -46,4 +49,44 @@ def prime_Generate(length):
         flag = prime_Check(prime, 128)
     return prime
 
-print(prime_Generate(5))
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+def find_E(phi_n):
+    hcf = 0
+    while(hcf!=1):
+        e = randrange(0,phi_n)
+        hcf = gcd(e,phi_n)
+    print("HCF - " + str(hcf))
+    return e
+
+def find_D(e, phi):
+
+    def ext_GCD(e_KEY, mod_PHI):
+        if (e_KEY == 0):
+            return (mod_PHI, 0, 1)
+        g, y, x = ext_GCD(mod_PHI%e_KEY,e_KEY)
+        return (g, x - (mod_PHI//e_KEY) * y, y)
+
+    def modinv(e_KEY, mod_PHI):
+        g, x, y = ext_GCD(e_KEY, mod_PHI)
+        return x%mod_PHI
+    d_key = modinv(e,phi)
+    return d_key
+
+p = prime_Generate(1024)
+q = prime_Generate(1024)
+
+n = p*q
+phi_n = (p-1)*(q-1)
+
+#Find e
+e = find_E(phi_n)
+print("E = " + str(e))
+
+#Find d
+d = find_D(e,phi_n)
+print("D = " + str(d))
+
