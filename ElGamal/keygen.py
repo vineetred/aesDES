@@ -98,4 +98,3 @@ file.write(str(a))
 
 PK = (q,g,h)
 SK = a
-

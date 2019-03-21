@@ -60,7 +60,7 @@ def find_E(phi_n):
     while(hcf!=1):
         e = randrange(0,phi_n)
         hcf = gcd(e,phi_n)
-    print("HCF - " + str(hcf))
+    # print("HCF - " + str(hcf))
     return e
 
 def find_D(e, phi):

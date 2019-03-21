@@ -24,8 +24,8 @@ h = int(file.readline())
 file.close()
 
 file = open("encrypted.txt", 'r')
-C_1 = int(file.readline())
-C_2 = int(file.readline())
+cipher_1 = int(file.readline())
+cipher_2 = int(file.readline())
 # h = int(file.readline())
 file.close()
 
@@ -33,9 +33,9 @@ file = open("private_key.txt","r")
 a = int(file.readline())
 
 
-t1 = pow(C_1,a,q)
-t1inv = inv(t1,q)
-t2 = (C_2 * t1inv)%q
+plainText_1 = pow(cipher_1,a,q)
+plainText_1inv = inv(plainText_1,q)
+plainText_2 = (cipher_2 * plainText_1inv)%q
 
-final_message = binascii.unhexlify(hex(t2)[2:]).decode()
+final_message = binascii.unhexlify(hex(plainText_2)[2:]).decode()
 print(final_message)
