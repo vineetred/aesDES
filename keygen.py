@@ -1,5 +1,6 @@
 from random import randrange, getrandbits, random
 import sys
+import binascii
 sys.setrecursionlimit(6000)
 
 
@@ -81,12 +82,14 @@ q = prime_Generate(1024)
 
 n = p*q
 phi_n = (p-1)*(q-1)
-
 #Find e
 e = find_E(phi_n)
-print("E = " + str(e))
-
 #Find d
 d = find_D(e,phi_n)
-print("D = " + str(d))
 
+#Writing to file
+file = open("public_key.txt", "w")
+file.write(str(e) + "\n")
+file.write(str(n))
+file = open("private_key.txt","w")
+file.write(str(d))
