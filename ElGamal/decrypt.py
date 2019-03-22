@@ -26,7 +26,6 @@ file.close()
 file = open("encrypted.txt", 'r')
 cipher_1 = int(file.readline())
 cipher_2 = int(file.readline())
-# h = int(file.readline())
 file.close()
 
 file = open("private_key.txt","r")
