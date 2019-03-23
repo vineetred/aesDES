@@ -44,6 +44,7 @@ file.close()
 
 file = open("private_key.txt","r")
 a = int(file.readline())
+file.close()
 
 
 plainText_1 = exponent(cipher_1,a,p)
@@ -52,3 +53,7 @@ plainText_2 = (cipher_2 * plainText_1inv)%p
 
 final_message = binascii.unhexlify(hex(plainText_2)[2:]).decode()
 print(final_message)
+file = open("decryptedtext.txt","w")
+# a = int(file.readline())
+file.write(final_message)
+file.close()
