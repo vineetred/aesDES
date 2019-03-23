@@ -77,8 +77,10 @@ def find_D(e, phi):
     d_key = modinv(e,phi)
     return d_key
 
-p = prime_Generate(1024)
-q = prime_Generate(1024)
+bits = 512
+
+p = prime_Generate(bits)
+q = prime_Generate(bits)
 
 n = p*q
 phi_n = (p-1)*(q-1)

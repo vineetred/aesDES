@@ -50,7 +50,7 @@ def prime_Generate(length):
 def lucas_Test_new(g, P,Q):
     stable = P
     P = int(2)
-    medit = pow(g, P, P)
+    medit = pow(g, P, stable)
     if(medit%stable==1):
         return False
     medit = pow(g,Q,P)

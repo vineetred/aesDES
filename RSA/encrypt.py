@@ -4,7 +4,6 @@ import binascii
 file = open("public_key.txt", 'r')
 e = int(file.readline())
 n = int(file.readline())
-
 file = open("plaintext.txt", 'r')
 msg = file.read()
 
