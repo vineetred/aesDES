@@ -3,7 +3,19 @@ import sys
 import binascii
 sys.setrecursionlimit(6000)
 
+def exponent(num,e,n):
+    if((e&1)==1):
+        remainder = num%n
+    else:
+        remainder = 1
+    e //=2
 
+    while(e>0):
+        num = (num*num) % n
+        if((e&1)==1):
+            remainder = (remainder*num)%n
+        e//=2
+    return remainder
 
 def possible_Prime(length):
     i = False
@@ -29,11 +41,11 @@ def prime_Check(n, k):
 
     for _ in range(k):
         a = randrange(2, n - 1)
-        x = pow(a, r, n)
+        x = exponent(a, r, n)
         if x != 1 and x != n - 1:
             j = 1
             while j < s and x != n - 1:
-                x = pow(x, 2, n)
+                x = exponent(x, 2, n)
                 if x == 1:
                     return False
                 j += 1

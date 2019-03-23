@@ -9,19 +9,19 @@ def possible_Prime(length):
             i = True
     return num
 
-# def pow(b,exp,mod):
-#     exp_bin = []
-#     while exp > 0:
-#         exp_bin.append(exp%2)
-#         exp/=2
-#     final = 1
-#     exp_bin = exp_bin[::-1]
-#     for binary in exp_bin:
-#         if binary == 0:
-#             final = (final*final) % mod
-#         elif(binary==1):
-#             final = (final*final*b) % mod
-#     return final
+def exponent(num,e,n):
+    if((e&1)==1):
+        remainder = num%n
+    else:
+        remainder = 1
+    e //=2
+
+    while(e>0):
+        num = (num*num) % n
+        if((e&1)==1):
+            remainder = (remainder*num)%n
+        e//=2
+    return remainder
 
 def prime_Check(n, k):
     
@@ -38,11 +38,11 @@ def prime_Check(n, k):
 
     for _ in range(k):
         a = randrange(2, n - 1)
-        x = pow(a, r, n)
+        x = exponent(a, r, n)
         if x != 1 and x != n - 1:
             j = 1
             while j < s and x != n - 1:
-                x = pow(x, 2, n)
+                x = exponent(x, 2, n)
                 if x == 1:
                     return False
                 j += 1
@@ -63,10 +63,10 @@ def prime_Generate(length):
 def lucas_Test_new(g, P,Q):
     stable = P
     P = int(2)
-    medit = pow(g, P, stable)
+    medit = exponent(g, P, stable)
     if(medit%stable==1):
         return False
-    medit = pow(g,Q,stable)
+    medit = exponent(g,Q,stable)
     if(medit%stable==1):
         return False
     return True
@@ -102,7 +102,7 @@ g = primitive_Root() #This is your primitive root
 g = g*g
 a = randrange(2,(q-1)) #Secret key
 
-h = pow(g,a,p)
+h = exponent(g,a,p)
 
 #Writing to file
 file = open("public_key.txt", "w")

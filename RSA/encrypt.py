@@ -1,5 +1,18 @@
 import binascii
 
+def exponent(num,e,n):
+    if((e&1)==1):
+        remainder = num%n
+    else:
+        remainder = 1
+    e //=2
+
+    while(e>0):
+        num = (num*num) % n
+        if((e&1)==1):
+            remainder = (remainder*num)%n
+        e//=2
+    return remainder
 
 file = open("public_key.txt", 'r')
 e = int(file.readline())
@@ -7,7 +20,7 @@ n = int(file.readline())
 file = open("plaintext.txt", 'r')
 msg = file.read()
 
-message_Encrypted = pow(int(binascii.hexlify(msg.encode('utf-8')),16),e,n)
+message_Encrypted = exponent(int(binascii.hexlify(msg.encode('utf-8')),16),e,n)
 # message = int(message, 16)
 # message_Encrypted = pow(message, e, n)
 

@@ -1,89 +1,15 @@
-# from random import randrange, getrandbits, random
-
-# def possible_Prime(length):
-#     i = False
-#     while(i == False):
-#         num = getrandbits(length)
-#         if(len(str(num))>=1):
-#             i = True
-#     return num
 
 
-# def prime_Check(n, k):
-    
-#     if (n==2 or n==3):
-#         return True
-#     elif (n%2==0):
-#         return False
-#     # print("Here")
-#     s, r = 0, (n-1)
-#     # print("Here")
-#     while (r %2 == 0):
-#         s += 1
-#         r //= 2
+def exponent(num,e,n):
+    if((e&1)==1):
+        remainder = num%n
+    else:
+        remainder = 1
+    e //=2
 
-#     for _ in range(k):
-#         a = randrange(2, n - 1)
-#         x = pow(a, r, n)
-#         if x != 1 and x != n - 1:
-#             j = 1
-#             while j < s and x != n - 1:
-#                 x = pow(x, 2, n)
-#                 if x == 1:
-#                     return False
-#                 j += 1
-#             if x != n - 1:
-#                 return False
-#     return True
-
-# # print(prime_Check(96,5))
-
-# def prime_Generate(length):
-#     flag = False
-#     prime = 0
-#     while(flag == False):
-#         prime = possible_Prime(length)
-#         flag = prime_Check(prime, 128)
-#     return prime
-
-# # print(prime_Generate(5))
-# def gcd(a, b):
-#     while b != 0:
-#         a, b = b, a % b
-#     return a
-import sys
-import binascii
-sys.setrecursionlimit(1500)
-
-# def find_D(e, phi):
-
-#     def ext_GCD(e_KEY, mod_PHI):
-#         if (e_KEY == 0):
-#             return (mod_PHI, 0, 1)
-#         g, y, x = ext_GCD(mod_PHI%e_KEY,e_KEY)
-#         return (g, x - (mod_PHI//e_KEY) * y, y)
-
-#     def modinv(e_KEY, mod_PHI):
-#         g, x, y = ext_GCD(e_KEY, mod_PHI)
-#         return x%mod_PHI
-#     d_key = modinv(e,phi)
-#     return d_key
-# print(find_D(5,72))
-
-e = 7008334257743440622205931997264124837496749850499097493805590907594302418868306247499623049856430672185852999988024816027801080884594086002168122217043656824975870167345477942598455951835999307956644913016532271994040051054322337572607192728083828553829877069757634546253868216474702105764087680347311544619471548826322454620597159400483738867570605219200369782036020781170330112778870241684078380456058933582868845297098489318404162198445114478274665018901508333713899915747753140075004685245767749556174177957916256654606343620306612084535003252043584938353960933241365092213240429073111194175919170106460094471989
-d = 20174898385108008999590471470523146088492378338171140668059808876284553433991181526002781757349137243989668890566446354824116011448983281102725013099809418875840641009568316293263933971539497774725387593859508663605411557207279833189606884378398612798798711876071657687346493990769792125091637066647143795900495697114889530873846152516067723700290590794122946979960827878045963699530171955656294874949488379761674024204344082919802894706011369557160097010434651475343385992969440730870242959574712180473375391746174064550145598513065363343775054182521737984784721702316886904448136641377108826336403041714713224980093
-n = 23046214063880222282304119669571382950014827689910180050593370411715143781428266929595289875897663616849018169105407710272032865046328385672077355770717624982103620981522164644241031337748087709448422452430643279088286108648192267544251563851032780363632820112179034140390549261493021973336628869646868346686440358298809060276990437874743782326015261398343657367478008492256734325285249040504957007352661096511395670625128778111085523824772415385262346270850043456120178822023135066465152950398340206202595979499774313413029918375488990105273097321736785242136197343325138431985906937604080461072443677057430833049373
-
-msg = "Testing"
-# msg_hex= binascii.hexlify(msg.encode('utf-8'))
-cipher = [(ord(char) ** e) % n for char in msg]
-# plain_text = int(msg_hex, 16)
- 
-# encrypted_text = pow(plain_text, e, n)
-# decrypted_text = pow(encrypted_text, d, n)
-# print('message  ', binascii.unhexlify(hex(decrypted_text)[2:]).decode('utf-8')) 
-# file = open("public_key.txt", "w")
-# file.write(str(e) + "\n")
-# file.write(str(d))
-
-# cipher = [(ord(char) ** e) % n for char in msg]
+    while(e>0):
+        num = (num*num) % n
+        if((e&1)==1):
+            remainder = (remainder*num)%n
+        e//=2
+    return remainder
