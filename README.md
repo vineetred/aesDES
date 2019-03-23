@@ -2,7 +2,7 @@
 
 Simple implementation of RSA and ElGamal.
 
-##RSA 
+## RSA 
 1. Language = Python 3.6.4
 2. To run the program, we have to first generate our public and private keys. To do this, just run the command
 "python3 keygen.py".
@@ -13,7 +13,7 @@ Simple implementation of RSA and ElGamal.
 7. Make sure the number of bits of the message is smaller than 1024.
 8. The decrypted text can be found in the terminal as well as in the file called decryptedtext.txt
 
-##ElGamal
+## ElGamal
 1. Language = Python 3.6.4
 2. To run the program, we have to first generate our public and private keys. To do this, just run the command
 "python3 keygen.py".
