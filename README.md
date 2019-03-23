@@ -28,3 +28,10 @@ Simple implementation of RSA and ElGamal.
 1. Language = Python 3.6.4
 2. Change the values of e, d and n in the file, misc/factoring.py
 3. Run the command, "python3 factoring.py"
+
+## References for code
+1. Dhruv Agarwal, Vidur Singh and TS Harikrishnan - Code References
+2. https://www.geeksforgeeks.org/rsa-algorithm-cryptography/
+3. https://rosettacode.org/wiki/RSA_code
+4. https://gist.github.com/JonCooperWorks/5314103
+5. https://rosettacode.org/wiki/Miller%E2%80%93Rabin_primality_test#Python - Miller Rabin
