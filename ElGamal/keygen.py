@@ -9,6 +9,19 @@ def possible_Prime(length):
             i = True
     return num
 
+# def pow(b,exp,mod):
+#     exp_bin = []
+#     while exp > 0:
+#         exp_bin.append(exp%2)
+#         exp/=2
+#     final = 1
+#     exp_bin = exp_bin[::-1]
+#     for binary in exp_bin:
+#         if binary == 0:
+#             final = (final*final) % mod
+#         elif(binary==1):
+#             final = (final*final*b) % mod
+#     return final
 
 def prime_Check(n, k):
     
@@ -53,7 +66,7 @@ def lucas_Test_new(g, P,Q):
     medit = pow(g, P, stable)
     if(medit%stable==1):
         return False
-    medit = pow(g,Q,P)
+    medit = pow(g,Q,stable)
     if(medit%stable==1):
         return False
     return True
@@ -79,18 +92,21 @@ def inv(e,phi):
     d_key = modinv(e,phi)
     return d_key
 
-q = prime_Generate(300)
-p = (2*q)+1
+flag = False
+while(flag==False):
+    q = prime_Generate(300)
+    p = (2*q)+1
+    flag = prime_Check(p,128)
 
 g = primitive_Root() #This is your primitive root
 g = g*g
 a = randrange(2,(q-1)) #Secret key
 
-h = pow(g,a,q)
+h = pow(g,a,p)
 
 #Writing to file
 file = open("public_key.txt", "w")
-file.write(str(q) + "\n")
+file.write(str(p) + "\n")
 file.write(str(g) + "\n")
 file.write(str(h))
 file = open("private_key.txt","w")

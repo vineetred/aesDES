@@ -18,7 +18,7 @@ def inv(e,phi):
 
 
 file = open("public_key.txt", 'r')
-q = int(file.readline())
+p = int(file.readline())
 g = int(file.readline())
 h = int(file.readline())
 file.close()
@@ -32,9 +32,9 @@ file = open("private_key.txt","r")
 a = int(file.readline())
 
 
-plainText_1 = pow(cipher_1,a,q)
-plainText_1inv = inv(plainText_1,q)
-plainText_2 = (cipher_2 * plainText_1inv)%q
+plainText_1 = pow(cipher_1,a,p)
+plainText_1inv = inv(plainText_1,p)
+plainText_2 = (cipher_2 * plainText_1inv)%p
 
 final_message = binascii.unhexlify(hex(plainText_2)[2:]).decode()
 print(final_message)

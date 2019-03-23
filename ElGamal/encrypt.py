@@ -7,7 +7,7 @@ file = open("public_key.txt", 'r')
 
 
 #Change message here
-message = "teddybears"
+message = "helloworldhelloworld"
 
 print("Message:")
 print(message)
@@ -15,17 +15,17 @@ print(message)
 message_Encrypted = int(binascii.hexlify(message.encode('utf-8')),16)
 
 m = message_Encrypted
-q = int(file.readline())
+p = int(file.readline())
 g = int(file.readline())
 h = int(file.readline())
 
-r = randrange(2,(q-1))
+r = randrange(2,(p-1))
 
-cipher_1 = pow(g,r,q)
-cipher_2 = pow(h,r,q)
+cipher_1 = pow(g,r,p)
+cipher_2 = pow(h,r,p)
 
 cipher_2 = cipher_2 * m
-cipher_2 = cipher_2%q
+cipher_2 = cipher_2%p
 
 #Writing to file
 file = open("encrypted.txt", "w")
