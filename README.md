@@ -23,3 +23,8 @@ Simple implementation of RSA and ElGamal.
 6. To decrypt, run the command "python3 decrypt.py".
 7. Make sure the number of bits of the message is smaller than 1024.
 8. The decrypted text can be found in the terminal as well as in the file called decryptedtext.txt
+
+## RSA Factoring
+1. Language = Python 3.6.4
+2. Change the values of e, d and n in the file, misc/factoring.py
+3. Run the command, "python3 factoring.py"
