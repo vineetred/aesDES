@@ -102,7 +102,7 @@ while(flag==False):
     flag = prime_Check(p,128)
 
 g = primitive_Root() #This is your primitive root
-g = g*g
+g = (g*g)%p 
 a = randrange(2,(q-1)) #Secret key
 
 h = exponent(g,a,p)
