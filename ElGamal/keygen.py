@@ -1,5 +1,8 @@
 from random import randrange, getrandbits, random
 import math
+import sys
+sys.setrecursionlimit(100000)
+
 
 def possible_Prime(length):
     i = False

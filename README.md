@@ -33,5 +33,5 @@ Simple implementation of RSA and ElGamal.
 1. Dhruv Agarwal, Vidur Singh and TS Harikrishnan - Code References
 2. https://www.geeksforgeeks.org/rsa-algorithm-cryptography/
 3. https://rosettacode.org/wiki/RSA_code
-4. https://gist.github.com/JonCooperWorks/5314103
+4. https://gist.github.com/JonCooperWorks/5314103 - A medium blog post repo
 5. https://rosettacode.org/wiki/Miller%E2%80%93Rabin_primality_test#Python - Miller Rabin
