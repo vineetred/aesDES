@@ -66,10 +66,10 @@ def prime_Generate(length):
 def lucas_Test_new(g, P,Q):
     stable = P
     P = int(2)
-    medit = exponent(g, P, stable)
+    medit = exponent(g, int((stable-1)/2), stable)
     if(medit%stable==1):
         return False
-    medit = exponent(g,Q,stable)
+    medit = exponent(g,int((stable-1)/Q),stable)
     if(medit%stable==1):
         return False
     return True
@@ -79,6 +79,8 @@ def primitive_Root():
     result = False
     while(result == False):
         result = lucas_Test_new(possible, p, q)
+        if(result==True):
+            break
         possible = possible_Prime(300)
     return possible
 
@@ -94,7 +96,7 @@ def inv(e,phi):
         return x%mod_PHI
     d_key = modinv(e,phi)
     return d_key
-
+#I will be taking p = 2q+1 not the other way round
 flag = False
 while(flag==False):
     q = prime_Generate(300)

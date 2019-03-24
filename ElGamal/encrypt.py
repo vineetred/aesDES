@@ -4,6 +4,7 @@ import binascii
 import sys
 
 
+
 def exponent(num,e,n):
     if((e&1)==1):
         remainder = num%n
