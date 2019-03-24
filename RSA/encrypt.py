@@ -20,9 +20,7 @@ n = int(file.readline())
 file = open("plaintext.txt", 'r')
 msg = file.read()
 
-message_Encrypted = exponent(int(binascii.hexlify(msg.encode('utf-8')),16),e,n)
-# message = int(message, 16)
-# message_Encrypted = pow(message, e, n)
+message_Encrypted = exponent(int(binascii.hexlify(msg.encode('utf-8')),16),e,n) #Converting to hex so that one can encode letters too
 
 file = open("ciphertext.txt", 'w')
 file.write(str(message_Encrypted).strip())
