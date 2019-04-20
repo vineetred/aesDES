@@ -50,8 +50,9 @@ Simple implementation of RSA and ElGamal.
 9. To sign the hash instead of the message, run the command "hashing.py". This will, replace the message in the message.txt with the hash instead. Run the Sign script and you are good to go. To remove the hash, just edit the message.txt file again. 
 
 ## References for code
-1. Dhruv Agarwal, Vidur Singh and TS Harikrishnan - Code References
+1. Dhruv Agarwal, Vidur Singh, TS Harikrishnan, and Preetha Datta - Code References
 2. https://www.geeksforgeeks.org/rsa-algorithm-cryptography/
 3. https://rosettacode.org/wiki/RSA_code
 4. https://gist.github.com/JonCooperWorks/5314103 - A medium blog post repo
-5. https://rosettacode.org/wiki/Miller%E2%80%93Rabin_primality_test#Python - Miller Rabin
+5. https://rosettacode.org/wiki/Miller%E2%80%93Rabin_primality_test - Miller Rabin
+6. https://rosettacode.org/wiki/Modular_inverse Modular Inverse using extended Euclidean algorithm
