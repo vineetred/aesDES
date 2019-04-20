@@ -1,15 +1,17 @@
-def extended_gcd(aa, bb):
-    lastremainder, remainder = abs(aa), abs(bb)
-    x, lastx, y, lasty = 0, 1, 1, 0
+def ext_GCD(arg1, arg2):
+    prevRemain, remainder = abs(arg1), abs(arg2)
+    x, oldX, y, oldY = 0, 1, 1, 0
     while remainder:
-        lastremainder, (quotient, remainder) = remainder, divmod(lastremainder, remainder)
-        x, lastx = lastx - quotient*x, x
-        y, lasty = lasty - quotient*y, y
-    return lastremainder, lastx * (-1 if aa < 0 else 1), lasty * (-1 if bb < 0 else 1)
+        prevRemain, (quotient, remainder) = remainder, divmod(prevRemain, remainder)
+        x, oldX = oldX - quotient*x, x
+        y, oldY = oldY - quotient*y, y
+    return prevRemain, oldX * (-1 if arg1 < 0 else 1), oldY * (-1 if arg2 < 0 else 1)
  
-def inv(a, m):
-    g, x, y = extended_gcd(a, m)
+def inv(e, phi):
+    g, x, y = ext_GCD(e, phi)
     if (g != 1):
-	    raise ValueError
-    return x % m
-print(inv(-4,59))
+	    raise Exception("No modular inverse exists")
+    posans = (x%phi)
+    return posans
+
+print(inv(3,26))
