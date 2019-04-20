@@ -23,14 +23,13 @@ def ext_GCD(arg1, arg2):
         x, oldX = oldX - quotient*x, x
         y, oldY = oldY - quotient*y, y
     return prevRemain, oldX * (-1 if arg1 < 0 else 1), oldY * (-1 if arg2 < 0 else 1)
- 
+
 def inv(e, phi):
     g, x, y = ext_GCD(e, phi)
     if (g != 1):
 	    raise Exception("No modular inverse exists")
     posans = (x%phi)
     return posans
-
 
 def addition(arg1,arg2):
     if(arg1==[-1,-1] and arg2==[-1,-1]): #This is the infinity added to infinity
@@ -80,16 +79,37 @@ def negationPoint(point):
 def subtractionPoint(point1,point2):
     return addition(point1,negationPoint(point2))
 
+def EC_Check(point): #function to check if given co-ordinates are part of EC or not
+    x,y = point
+    if(x>p or x<0 or y>p or y<0):
+        return False
+    flag = ((y**2 - (x**3 + a*x + b)))%p==0
+    return flag
+
 def functionCheck(xcord):
     y2 = (xcord**3 + a*xcord + b)%p
     y = math.sqrt(y2)
     return int(y)
-# print(multiplePoint([4,14],3))
-print(addition([8,2],[4,14]))
-print(addition([4,14],[8,2]))
-# print(functionCheck(56))
-# print(negationPoint([1,2]))
 
-def check_EC(x,y): #function to check if given co-ordinates are part of EC or not
-    
-    return ((y**2 - (x**3 + a*x + b)) % p == 0 and 0 <= x < p and 0 <= y < p)
+def write_to_File(variable):
+    file = open("output.txt", 'w')
+    file.write(str(variable))
+    file.close()
+
+#Check addition
+print(addition([15,53],[4,14]))
+
+#Check negation
+print(negationPoint([8,2]))
+
+#Check point doubling
+print(pointDoubling([4,14]))
+
+#Check multiple point scalar multiplication
+print(multiplePoint([4,14],7))
+
+#Check Subtraction
+write_to_File(subtractionPoint([15,53],[4,14]))
+
+#Check if a point is on the curve
+print(EC_Check([8,57]))
