@@ -103,10 +103,12 @@ print(addition([15,53],[4,14]))
 print(negationPoint([8,2]))
 
 #Check point doubling
+
 print(pointDoubling([4,14]))
 
 #Check multiple point scalar multiplication
-print(multiplePoint([4,14],7))
+print("Point Double")
+print(multiplePoint([8,2],26))
 
 #Check Subtraction
 write_to_File(subtractionPoint([15,53],[4,14]))

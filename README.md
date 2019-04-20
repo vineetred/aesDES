@@ -37,6 +37,18 @@ Simple implementation of RSA and ElGamal.
 5. The EC Domain parameters will be found in the file called 'variables.txt'. Changes to the curve must be made here.
 6. The outputs will be saved in the file named 'output.txt'.
 
+## ElGamal Signature Scheme
+1. Language = Python 3.6.4
+2. To run the program, we have to first generate our public and private keys. To do this, just run the command
+"python3 keygen.py".
+3. After this, two text files would have been created, public_key and private_key. These contain your keys. Another file is the text file containing the value of q.
+4. The message text file contains the text that needs to be signed. Edit this to whatever you like. 
+5. To sign,  run the command "python3 Sign.py". This will create a text file, signature.txt containing r and s.
+6. To decrypt and verify, run the command "python3 Decrypt.py".
+7. Make sure the number of bits of the message is smaller than 1024.
+8. To run the existentital forgery demo, run the command "python3 forgery.py". This will generate a forged signature and message. Before running the decrypt script, comment out the readKeys and readMessage functions and uncomment the forged function.
+9. To sign the hash instead of the message, run the command "hashing.py". This will, replace the message in the message.txt with the hash instead. Run the Sign script and you are good to go. To remove the hash, just edit the message.txt file again. 
+
 ## References for code
 1. Dhruv Agarwal, Vidur Singh and TS Harikrishnan - Code References
 2. https://www.geeksforgeeks.org/rsa-algorithm-cryptography/
