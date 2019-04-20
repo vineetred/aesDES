@@ -35,18 +35,18 @@ def inv(e, phi):
     posans = (x%phi)
     return posans
 
-file = open("public_key.txt", 'r')
+file = open("Parameters/public_key.txt", 'r')
 p = int(file.readline())
 g = int(file.readline())
 h = int(file.readline())
 file.close()
-file = open("q_val.txt", 'r')
+file = open("Parameters/q_val.txt", 'r')
 q = int(file.readline())
 
-file = open("private_key.txt","r")
+file = open("Parameters/private_key.txt","r")
 a= int(file.readline())
 
-file = open("message.txt", 'r')
+file = open("Parameters/message.txt", 'r')
 message = file.read()
 
 print("Message:")
@@ -65,7 +65,7 @@ inverse = inv(k,q)
 signature = (signature*inverse)%q
 
 #Writing signature to file
-file = open("signature.txt", "w")
+file = open("Parameters/signature.txt", "w")
 
 file.write(str(r) + "\n")
 file.write(str(signature))

@@ -34,13 +34,13 @@ def inv(e, phi):
 
 
 
-file = open("public_key.txt", 'r')
+file = open("Parameters/public_key.txt", 'r')
 global p,g,h,r,signature
 p = int(file.readline())
 g = int(file.readline())
 h = int(file.readline())
 file.close()
-file = open("q_val.txt", 'r')
+file = open("Parameters/q_val.txt", 'r')
 q = int(file.readline())
 file.close()
 
@@ -52,9 +52,9 @@ r = (r*h)%p
 signature = (-r)%q
 message = (z*signature)%q
 
-file = open("forged.txt", 'w')
+file = open("Parameters/forged.txt", 'w')
 file.write(str(r) + "\n")
 file.write(str(signature))
 file.close()
-file = open("forged_message.txt", 'w')
+file = open("Parameters/forged_message.txt", 'w')
 file.write(str(message) + "\n")

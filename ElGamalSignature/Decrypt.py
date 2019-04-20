@@ -33,19 +33,19 @@ def inv(e, phi):
     return posans
 
 def readKeys():
-    file = open("public_key.txt", 'r')
+    file = open("Parameters/public_key.txt", 'r')
     global p,g,h,r,signature
     p = int(file.readline())
     g = int(file.readline())
     h = int(file.readline())
     file.close()
 
-    file = open("signature.txt",'r')
+    file = open("Parameters/signature.txt",'r')
     r = int(file.readline())
     signature = int(file.readline())
 
 def readMessage():
-    file = open("message.txt", 'r')
+    file = open("Parameters/message.txt", 'r')
     message = file.read()
     print("Message:",message)
     message_Encrypted = int(binascii.hexlify(message.encode('utf-8')),16)
@@ -62,24 +62,26 @@ def verify():
         print("Signature: False")
 
 def forged():
-    file = open("public_key.txt", 'r')
+    file = open("Parameters/public_key.txt", 'r')
     global p,g,h,r,signature,m
     p = int(file.readline())
     g = int(file.readline())
     h = int(file.readline())
     file.close()
 
-    file = open("forged.txt",'r')
+    file = open("Parameters/forged.txt",'r')
     r = int(file.readline())
     signature = int(file.readline())
     file.close()
-    file = open("forged_message.txt", 'r')
+    file = open("Parameters/forged_message.txt", 'r')
     message = int(file.readline())
     file.close()
     m = message
     print("Message:",m)
 
-readKeys()
-readMessage()
-# forged()
+
+
+# readKeys()
+# readMessage()
+forged()
 verify()

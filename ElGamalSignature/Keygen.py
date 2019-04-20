@@ -110,14 +110,14 @@ a = randrange(2,(q-1)) #Secret key
 h = exponent(g,a,p)
 
 #Writing to file
-file = open("public_key.txt", "w")
+file = open("Parameters/public_key.txt", "w")
 file.write(str(p) + "\n")
 file.write(str(g) + "\n")
 file.write(str(h))
-file = open("private_key.txt","w")
+file = open("Parameters/private_key.txt","w")
 file.write(str(a))
 
-file = open("q_val.txt","w")
+file = open("Parameters/q_val.txt","w")
 file.write(str(q))
 file.close()
 PK = (q,g,h)
