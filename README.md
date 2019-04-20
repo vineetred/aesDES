@@ -1,4 +1,4 @@
-# RSA_ElGamal
+# Cryptographic Implementations
 
 Simple implementation of RSA and ElGamal.
 
