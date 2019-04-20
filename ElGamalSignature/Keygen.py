@@ -96,6 +96,7 @@ def inv(e,phi):
         return x%mod_PHI
     d_key = modinv(e,phi)
     return d_key
+
 #I will be taking p = 2q+1 not the other way round
 flag = False
 while(flag==False):
@@ -116,5 +117,8 @@ file.write(str(h))
 file = open("private_key.txt","w")
 file.write(str(a))
 
+file = open("q_val.txt","w")
+file.write(str(q))
+file.close()
 PK = (q,g,h)
 SK = a
