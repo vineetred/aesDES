@@ -160,11 +160,11 @@ read_Parameters()
 
 #Question (b)
 # Return value must be stored to be used later
-# points = read_Point()
+points = read_Point()
 
 #Question (c)
 #Printing the above read points
-# write_Point_terminal(points)
+write_Point_terminal(points)
 
 #Question (d)
 #Case 1 - Adding Inf point to itself. Expected result = [-1,-1]
