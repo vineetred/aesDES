@@ -10,6 +10,20 @@ b = int(contents[2])
 
 infinity = [-1,-1]
 
+def exponent(num,e,n):
+    if((e&1)==1):
+        remainder = num%n
+    else:
+        remainder = 1
+    e //=2
+
+    while(e>0):
+        num = (num*num) % n
+        if((e&1)==1):
+            remainder = (remainder*num)%n
+        e//=2
+    return remainder
+
 def bits(n):
     while n:
         yield n & 1
@@ -96,22 +110,57 @@ def write_to_File(variable):
     file.write(str(variable))
     file.close()
 
+def find_Y(point):
+    p,a,b = 59,17,5
+    a,u = (pow(point,3) + a*point + b),0
+    if (exponent(a, int((p-1)/2), p) == 1): #Eulers criterion to check if point is a quadratic residue of p
+        
+        flag = True
+        
+        while (flag == True):
+            u = u + 1
+            if (exponent(u, int((p-1)/2), p) != 1):
+                flag = False 
+        s,variable = 0,p-1
+        while ((variable % 2) == 0):
+            s = s + 1
+            variable = (variable/2)
+
+        t,k = variable,s
+        z = exponent(u, int(t), p)
+        point = exponent(a, int((t+1)/2), p)
+        b = exponent(a, int(t), p)
+        while (b != 1 % p):
+            m = 1
+            variable = pow(b,pow(2,m))
+            while ((variable - 1) % p != 0):
+                m +=1
+
+            y = exponent(2, (k-m-1), p)
+            z = exponent(y,2,p)
+            b = b*z % p
+            point = point*y % p
+            k = m
+        return point
+    else :
+        return ("Y does not exist for given x =",point)
+
+
 #Check addition
-print(addition([15,53],[4,14]))
+# print(addition([15,53],[4,14]))
 
 #Check negation
-print(negationPoint([8,2]))
+# print(negationPoint([8,2]))
 
 #Check point doubling
 
-print(pointDoubling([4,14]))
+# print(pointDoubling([4,14]))
 
 #Check multiple point scalar multiplication
-print("Point Double")
-print(multiplePoint([8,2],26))
+# print("Point Double")
+# print(multiplePoint([8,2],26))
 
 #Check Subtraction
-write_to_File(subtractionPoint([15,53],[4,14]))
+# write_to_File(subtractionPoint([15,53],[4,14]))
 
 #Check if a point is on the curve
-print(EC_Check([8,57]))
