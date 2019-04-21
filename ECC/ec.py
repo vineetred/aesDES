@@ -1,14 +1,15 @@
 import numpy as np
 import math
 
-file = open("variables.txt", 'r')
-contents = file.read().split(" ")
-file.close()
-p = int(contents[0])
-a = int(contents[1])
-b = int(contents[2])
-
-infinity = [-1,-1]
+def read_Parameters():
+    global p,a,b,infinity
+    file = open("variables.txt", 'r')
+    contents = file.read().split(" ")
+    file.close()
+    p = int(contents[0])
+    a = int(contents[1])
+    b = int(contents[2])
+    infinity = [-1,-1]
 
 def exponent(num,e,n):
     if((e&1)==1):
@@ -44,6 +45,14 @@ def inv(e, phi):
 	    raise Exception("No modular inverse exists")
     posans = (x%phi)
     return posans
+
+def read_Point():
+    x = int(input("Enter x: "))
+    y = int(input("Enter y: "))
+    return [x,y]
+
+def write_Point_terminal(point):
+    print(point)
 
 def addition(arg1,arg2):
     if(arg1==[-1,-1] and arg2==[-1,-1]): #This is the infinity added to infinity
@@ -145,22 +154,49 @@ def find_Y(point):
     else :
         return ("Y does not exist for given x =",point)
 
+#Question (a)
+# <-- THIS MUST BE DONE BEFORE DOING ANYTHING ELSE -->
+read_Parameters()
 
-#Check addition
-# print(addition([15,53],[4,14]))
+#Question (b)
+# Return value must be stored to be used later
+# points = read_Point()
 
-#Check negation
-# print(negationPoint([8,2]))
+#Question (c)
+#Printing the above read points
+# write_Point_terminal(points)
 
-#Check point doubling
+#Question (d)
+#Case 1 - Adding Inf point to itself. Expected result = [-1,-1]
+print(addition([-1,-1],[-1,-1]))
 
-# print(pointDoubling([4,14]))
+#Case 2 - Adding P to Inf Point. Expected result = P
+print(addition([4,14],[-1,-1]))
 
-#Check multiple point scalar multiplication
-# print("Point Double")
-# print(multiplePoint([8,2],26))
+#Case 3 - Add two points with same x coordinates but different y coordinates
+#Expected result = Infinity point
+print(addition([8,2],[8,57]))
 
-#Check Subtraction
-# write_to_File(subtractionPoint([15,53],[4,14]))
+#Case 4 - Add with two different points
+# Adding 4,14 and 8,2. Expected results for p a b = 59 17 5 is [56,24]
+print(addition([4,14],[8,2]))
 
-#Check if a point is on the curve
+#Case 5 - Point doubling
+#Let's double point [4,14]. 2P = 8,2
+print(pointDoubling([4,14]))
+
+#Question (e)
+# Negate a point
+print(negationPoint([8,2]))
+
+#Question (f)
+#Subtracting 4,14 from 8,2. If P = 4,14 then 2P = 8,2. So, 2P - P = P (4,14)
+print(subtractionPoint([8,2],[4,14]))
+
+#Question (g)
+#Let's multiply the point [4,14]. 7*P = 15,53
+print(multiplePoint([4,14],7))
+
+#Question (h)
+#Shanks Algorithm. For a given X, return Y
+print(find_Y(8))
