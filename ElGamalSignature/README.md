@@ -10,3 +10,4 @@
 8. To run the existentital forgery demo, run the command "python3 forgery.py". This will generate a forged signature and message. Before running the decrypt script, comment out the readKeys and readMessage functions and uncomment the forged function.
 9. To sign the hash instead of the message, run the command "hashing.py". This will, replace the message in the message.txt with the hash instead. Run the Sign script and you are good to go. To remove the hash, just edit the message.txt file again.
 10. All the text files are in the parameters folder.
+11. **I have used p instead of q and q instead of p. Just following the slides and not the question given in the pset. Please keep this in mind.**
