@@ -156,19 +156,20 @@ def find_Y(point):
     elif(condition==0):
         return 0
     else :
-        return ("Y does not exist for given x =",point)
+        raise Exception ("Y does not exist for given x =",point)
 
 ############------------############------------
 # FORMAT FOR THE POINTS = [x,y]
 # Always pass a list unless specified
 # Only find_Y() takes a single integer as a paramter
+# Can be converted to string by just placing the points in str([x,y])
 ############------------############------------
 
 #Question (a)
 # <-- THIS MUST BE DONE BEFORE DOING ANYTHING ELSE -->
 # print("Reading parameters of the EC")
 read_Parameters()
-print(find_Y(1))
+
 #Question (b)
 # Return value must be stored to be used later
 print("Points input")
