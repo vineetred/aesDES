@@ -1,3 +1,4 @@
+#INFINITY POINT IS USED HERE AS [-1,-1]
 import numpy as np
 import math
 
@@ -120,9 +121,10 @@ def write_to_File(variable):
     file.close()
 
 def find_Y(point):
-    p,a,b = 59,17,5
+    global p,a,b
     a,u = (pow(point,3) + a*point + b),0
-    if (exponent(a, int((p-1)/2), p) == 1): #Eulers criterion to check if point is a quadratic residue of p
+    condition = exponent(a, int((p-1)/2), p)
+    if (condition == 1): #Eulers criterion to check if point is a quadratic residue of p
         
         flag = True
         
@@ -151,22 +153,34 @@ def find_Y(point):
             point = point*y % p
             k = m
         return point
+    elif(condition==0):
+        return 0
     else :
         return ("Y does not exist for given x =",point)
 
+############------------############------------
+# FORMAT FOR THE POINTS = [x,y]
+# Always pass a list unless specified
+# Only find_Y() takes a single integer as a paramter
+############------------############------------
+
 #Question (a)
 # <-- THIS MUST BE DONE BEFORE DOING ANYTHING ELSE -->
+# print("Reading parameters of the EC")
 read_Parameters()
-
+print(find_Y(1))
 #Question (b)
 # Return value must be stored to be used later
+print("Points input")
 points = read_Point()
 
 #Question (c)
 #Printing the above read points
+print("Writing points")
 write_Point_terminal(points)
 
 #Question (d)
+print("Addition")
 #Case 1 - Adding Inf point to itself. Expected result = [-1,-1]
 print(addition([-1,-1],[-1,-1]))
 
@@ -187,16 +201,20 @@ print(pointDoubling([4,14]))
 
 #Question (e)
 # Negate a point
+print("Point negation")
 print(negationPoint([8,2]))
 
 #Question (f)
 #Subtracting 4,14 from 8,2. If P = 4,14 then 2P = 8,2. So, 2P - P = P (4,14)
+print("Point subtraction")
 print(subtractionPoint([8,2],[4,14]))
 
 #Question (g)
 #Let's multiply the point [4,14]. 7*P = 15,53
+print("Point scalar multiplication")
 print(multiplePoint([4,14],7))
 
 #Question (h)
 #Shanks Algorithm. For a given X, return Y
+print("Shanks algorithm")
 print(find_Y(8))
