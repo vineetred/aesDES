@@ -52,9 +52,9 @@ r = (r*h)%p
 signature = (-r)%q
 message = (z*signature)%q
 
-file = open("Parameters/forged.txt", 'w')
+file = open("Parameters/forged_signature.txt", 'w')
 file.write(str(r) + "\n")
 file.write(str(signature))
 file.close()
-file = open("Parameters/forged_message.txt", 'w')
+file = open("Parameters/message.txt", 'w')
 file.write(str(message) + "\n")

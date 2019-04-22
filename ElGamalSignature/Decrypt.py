@@ -69,11 +69,11 @@ def forged():
     h = int(file.readline())
     file.close()
 
-    file = open("Parameters/forged.txt",'r')
+    file = open("Parameters/forged_signature.txt",'r')
     r = int(file.readline())
     signature = int(file.readline())
     file.close()
-    file = open("Parameters/forged_message.txt", 'r')
+    file = open("Parameters/message.txt", 'r')
     message = int(file.readline())
     file.close()
     m = message
@@ -81,7 +81,8 @@ def forged():
 
 
 
-# readKeys()
-# readMessage()
-forged()
+readKeys()
+readMessage()
+#UNCOMMENT THE LINE BELOW WHEN SHOWING EXISTENTIAL FORGERY
+# forged()
 verify()
