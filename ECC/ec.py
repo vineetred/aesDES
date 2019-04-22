@@ -185,7 +185,7 @@ print("Addition")
 #Case 1 - Adding Inf point to itself. Expected result = [-1,-1]
 print(addition([-1,-1],[-1,-1]))
 
-#Case 2 - Adding P to Inf Point. Expected result = P
+#Case 2 - Adding P to Inf Point. Expected result = P which is [4,14]
 print(addition([4,14],[-1,-1]))
 
 #Case 3 - Add two points with same x coordinates but different y coordinates
@@ -216,6 +216,6 @@ print("Point scalar multiplication")
 print(multiplePoint([4,14],7))
 
 #Question (h)
-#Shanks Algorithm. For a given X, return Y
+#Shanks Algorithm. For a given X, return Y. Expected answer is either 2 or 57 for given X = 8
 print("Shanks algorithm")
 print(find_Y(8))
